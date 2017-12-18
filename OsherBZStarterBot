@@ -1,0 +1,48 @@
+
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+using Pirates;
+
+namespace MyBot
+{
+    public class MyBot : Pirates.IPirateBot
+    {
+        public void DoTurn(PirateGame game)
+        {
+            Pirate pirate = game.GetMyLivingPirates()[0];
+            Pirate EnemyPirate[] = new Pirate[game.GetEnemyLivingPirates.length];
+            EnemyPirate = game.GetEnemyLivingPirates; 
+            if(pirate.HasCapsule()==false){
+                Capsule MyCapsule = game.GetMyCapsule();
+                Capsule EnemyCapsule = game.GetEnemyCapsule();
+                pirate.Sail(MyCapsule);
+            }
+            else {
+                Mothership mothership = game.GetMyMothership();
+                pirate.Sail(mothership);
+            }
+            for (int i = 1 ; i <= game.GetMyLivingPirates().length && i <= 3 ; i++){
+                Pirate pirate1 = game.GetMyLivingPirates()[i];
+                Mothership enemymothership = game.GetEnemyMothership();
+                if(pirate1.GetLocation() != enemymothership.GetLocation)
+                    pirate1.Sail(enemymothership);
+                else{
+                    for(i = 0 ; i <= EnemyPirate.length; i++ ){
+                        if(pirate1.CanPush(EnemyPirate[i])){
+                            pirate1.Push(EnemyPirate[i],EnemyPirate[i].InitialLocation);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+    
+
+
